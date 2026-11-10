@@ -1,0 +1,108 @@
+:root {
+  --bg: #eef3ff;
+  --ink: #1b2340;
+  --muted: #6b7394;
+  --blue: #3b5bff;
+  --sun: #ffc93c;
+  --card: #ffffff;
+  --line: #d6dcf2;
+  --good: #14804a;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: system-ui, -apple-system, 'Segoe UI', sans-serif;
+}
+h1 {
+  font-family: 'Fredoka', system-ui, sans-serif;
+  font-weight: 600;
+  font-size: 2rem;
+  margin: 0 0 1rem;
+}
+.wrap { max-width: 860px; margin: 0 auto; padding: 1.25rem 1rem 3rem; }
+.panel {
+  background: var(--card);
+  border: 2px solid var(--ink);
+  border-radius: 14px;
+  box-shadow: 4px 4px 0 var(--sun);
+  padding: 1rem;
+  margin-bottom: 1rem;
+}
+.settings { display: flex; gap: 1rem; flex-wrap: wrap; }
+.settings label { display: grid; gap: .3rem; font-size: .9rem; color: var(--muted); flex: 1; min-width: 140px; }
+.add { display: grid; grid-template-columns: 2fr 1fr auto; gap: .6rem; }
+.bar { display: flex; gap: .6rem; margin-bottom: 1rem; }
+.bar input { flex: 1; }
+input, select, button {
+  font: inherit;
+  padding: .6rem .7rem;
+  border: 1.5px solid var(--line);
+  border-radius: 10px;
+  background: #fff;
+  color: var(--ink);
+  min-width: 0;
+}
+input:focus-visible, select:focus-visible, button:focus-visible {
+  outline: 3px solid var(--blue);
+  outline-offset: 1px;
+}
+button { cursor: pointer; font-weight: 600; border-color: var(--ink); }
+button:disabled { opacity: .45; cursor: not-allowed; }
+.primary { background: var(--blue); color: #fff; border-color: var(--blue); }
+.ghost { border-color: transparent; color: var(--muted); background: none; }
+.ghost:hover { color: #c0262d; }
+.scroll { overflow-x: auto; background: var(--card); border: 2px solid var(--ink); border-radius: 14px; }
+table { width: 100%; border-collapse: collapse; min-width: 720px; }
+th { text-align: left; font-size: .85rem; color: var(--muted); font-weight: 500; padding: .7rem .6rem; border-bottom: 2px solid var(--ink); }
+td { padding: .4rem .6rem; border-bottom: 1px solid var(--line); }
+tr:last-child td { border-bottom: 0; }
+td input { width: 100%; border-color: transparent; padding: .45rem .5rem; }
+td input:hover { border-color: var(--line); }
+td input.final { font-weight: 600; background: #fff8dc; }
+td input.qty { width: 4.5rem; text-align: center; }
+.muted { color: var(--muted); white-space: nowrap; }
+.profit { color: var(--good); font-weight: 600; white-space: nowrap; }
+.empty { padding: 2rem 1rem; text-align: center; color: var(--muted); }
+.hint { font-size: .85rem; color: var(--muted); }
+@media (max-width: 640px) {
+  .wrap { padding: 1rem 1rem 3rem; }
+  h1 { font-size: 1.6rem; }
+
+  /* Botones y campos fáciles de tocar; 16px evita que el iPhone haga zoom */
+  input, select, button { min-height: 48px; font-size: 16px; }
+
+  .settings { flex-direction: column; gap: .8rem; }
+  .add { grid-template-columns: 1fr 1fr; }
+  .add input:first-child { grid-column: 1 / -1; }
+  .add button { grid-column: 1 / -1; }
+  .bar { flex-wrap: wrap; }
+  .bar input { flex: 1 1 100%; }
+  .bar button { flex: 1; }
+
+  /* La tabla se vuelve tarjetas */
+  .scroll { overflow: visible; background: none; border: 0; border-radius: 0; }
+  table, tbody { display: block; min-width: 0; }
+  thead { display: none; }
+  tbody { display: grid; gap: 1rem; }
+  tr {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: .7rem .8rem;
+    background: var(--card);
+    border: 2px solid var(--ink);
+    border-radius: 14px;
+    box-shadow: 4px 4px 0 var(--sun);
+    padding: .9rem;
+  }
+  td { display: flex; flex-direction: column; gap: .25rem; padding: 0; border: 0; }
+  td::before { content: attr(data-label); font-size: .8rem; color: var(--muted); }
+  td input, td input.qty { width: 100%; border-color: var(--line); text-align: left; }
+  td.muted, td.profit { font-size: 1.05rem; padding-bottom: .7rem; justify-content: flex-end; }
+  td.name { grid-column: 1 / -1; }
+  td.name::before, td.del::before { content: none; }
+  td.name input { font-weight: 600; font-size: 1.1rem; }
+  td.del { justify-content: flex-end; }
+  td.del button { width: 100%; border-color: var(--line); color: #c0262d; }
+}
