@@ -1,11 +1,10 @@
 import { useEffect, useMemo, useState } from 'react'
 import jsPDF from 'jspdf'
 import autoTable from 'jspdf-autotable'
+import Quincena from './Quincena.jsx'
+import { money } from './money.js'
 
 const KEY = 'juguetes-precios-v1'
-
-const money = (n) =>
-  '$' + Number(n || 0).toLocaleString('es-MX', { maximumFractionDigits: 2 })
 
 // Costo + porcentaje (ej. 100 + 30% = 130)
 const withMarkup = (cost, percent) => Math.round(cost * (100 + percent)) / 100
@@ -34,7 +33,7 @@ const load = () => {
   return { items: [], percent: 30, step: 10 }
 }
 
-export default function App() {
+function Juguetes() {
   const [data, setData] = useState(load)
   const [name, setName] = useState('')
   const [cost, setCost] = useState('')
@@ -160,7 +159,7 @@ export default function App() {
   }
 
   return (
-    <main className="wrap">
+    <>
       <h1>Precios de juguetes</h1>
 
       <section className="panel settings">
@@ -307,6 +306,38 @@ export default function App() {
         Calcomanías: elige cuántas quieres de cada juguete (0 para ninguna). Imprime el PDF en papel
         adhesivo tamaño carta a <strong>tamaño real (100%)</strong> y recorta por las líneas punteadas.
       </p>
+    </>
+  )
+}
+
+const TABS = { juguetes: 'Juguetes', quincena: 'Quincena' }
+
+export default function App() {
+  const [tab, setTab] = useState(() => {
+    try {
+      return localStorage.getItem('tab') || 'juguetes'
+    } catch {
+      return 'juguetes'
+    }
+  })
+
+  const choose = (t) => {
+    setTab(t)
+    try {
+      localStorage.setItem('tab', t)
+    } catch {}
+  }
+
+  return (
+    <main className="wrap">
+      <nav className="tabs">
+        {Object.entries(TABS).map(([k, label]) => (
+          <button key={k} className={tab === k ? 'on' : ''} onClick={() => choose(k)}>
+            {label}
+          </button>
+        ))}
+      </nav>
+      {tab === 'quincena' ? <Quincena /> : <Juguetes />}
     </main>
   )
 }
